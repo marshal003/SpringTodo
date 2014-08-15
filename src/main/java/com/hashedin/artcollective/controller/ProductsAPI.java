@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductsAPI {
 
-	@RequestMapping(value="/api/products", method=RequestMethod.GET)
+	@RequestMapping(value = "/api/products", method = RequestMethod.GET)
 	public Map<String, Object> getProducts() {
 		List<Product> products = new ArrayList<Product>();
-		products.add(new Product("1", "iPhone", "$499", "The dumbest phone in the world"));
-		products.add(new Product("1", "Nexus", "$843", "The smartest android machine"));
+		products.add(new Product("1", "iPhone", "499", "The dumbest phone in the world"));
+		products.add(new Product("2", "Nexus", "501", "The smartest android machine"));
 		return wrapResponse(products);
 		
 	}
