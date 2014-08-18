@@ -11,12 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -72,46 +67,6 @@ public class Main extends WebMvcConfigurerAdapter {
 	@Bean
 	public AuthenticationSecurity authenticationSecurity() {
 		return new AuthenticationSecurity();
-	}
-
-	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
-
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests()
-				.antMatchers("/", "/home").permitAll()
-				.antMatchers("/secure/artist").hasAuthority("PERM_READ_ARTIST_DASHBOARD")
-				.antMatchers("/assets/**").permitAll()
-				.antMatchers("/manage/**").hasRole("SUPERADMIN")
-				.anyRequest().fullyAuthenticated();
-			
-			http
-				.formLogin()
-					.loginPage("/login").failureUrl("/login?error").permitAll()
-				.and()
-					.logout().logoutRequestMatcher(
-						new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
-		}
-	}
-	
-	protected static class AuthenticationSecurity extends
-			GlobalAuthenticationConfigurerAdapter {
-
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			
-			/* 
-			 * Always assign "permissions" to users
-			 * See http://springinpractice.com/2010/10/27
-			 * /quick-tip-spring-security-role-based-authorization-and-permissions/
-			 */
-			auth.inMemoryAuthentication()
-					.withUser("superadmin").password("superadmin").roles("SUPERADMIN").and()
-					.withUser("artist").password("artist")
-						.authorities("PERM_READ_ARTIST_DASHBOARD").and()
-					.withUser("shopper").password("shopper")
-						.authorities("PERM_READ_CUSTOMER_ORDERS").and();
-		}
 	}
 
 }
