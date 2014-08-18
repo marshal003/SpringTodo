@@ -4,11 +4,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.hashedin.artcollective.integration.ProductsAPIIntegrationTest;
+import com.hashedin.artcollective.integration.AuthorizationTests;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	ProductsAPIIntegrationTest.class,
+	AuthorizationTests.class,
 })
 public class IntegrationTests {
 
