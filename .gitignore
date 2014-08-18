@@ -7,6 +7,8 @@
 *.settings
 *.springBeans
 application.log
+src/main/resources/git.properties
+
 #################
 # Directories
 #################
