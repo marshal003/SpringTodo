@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +14,6 @@ public class ShopifyServiceTest extends BaseUnitTest {
 	@Autowired
 	private ShopifyService service;
 	
-	@Ignore
 	@Test
 	public void testFetchProducts() {
 		List<ShopifyProduct> products = service.getProductsSinceLastModified(null);

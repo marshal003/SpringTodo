@@ -23,5 +23,16 @@ public class ArtistRepositoryTest extends BaseUnitTest {
 		assertEquals(artists.get(1).getFirstName(), "Anurag");
 		
 	}
+	
+	@Test
+	public void createAndSearchArtist() {
+		repository.save(new Artist("Sripathi", "Krishnan"));
+		List<Artist> artists = repository.findByLastName("Krishnan");
+		assertEquals(artists.size(), 1);
+		assertEquals(artists.get(0).getFirstName(), "Sripathi");
+		assertEquals(artists.get(0).getLastName(), "Krishnan");
+		
+	}
+
 
 }
