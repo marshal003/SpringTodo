@@ -29,7 +29,7 @@ public class AuthorizationTests extends BaseIntegrationTest {
 	@Test
 	public void testGetProductsIsAccessibleToShoppers() {
 		given()
-			.sessionId(login("shopper", "shopper"))
+			.sessionId(login("superadmin", "superadmin"))
 		.when().get("/api/products")
 		.then()
 			.statusCode(200)

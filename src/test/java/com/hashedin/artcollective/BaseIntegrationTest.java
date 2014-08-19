@@ -13,15 +13,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.jayway.restassured.RestAssured;
 
@@ -29,14 +30,13 @@ import com.jayway.restassured.RestAssured;
 @SpringApplicationConfiguration(classes = Main.class)
 @IntegrationTest("server.port=0") 
 @WebAppConfiguration
+@ActiveProfiles("test")
 public class BaseIntegrationTest {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BaseIntegrationTest.class);
 	
 	private static final String baseURI = "http://localhost";
 	protected Printer printToConsole = new Printer();
-	
-	protected TestRestTemplate rest = new TestRestTemplate();
 	
     @Value("${local.server.port}")   // 6
     protected int port;
@@ -52,6 +52,9 @@ public class BaseIntegrationTest {
 	}
 	
 	protected String login(String username, String password) {
+		
+		RestTemplate rest = new RestTemplate();
+		
 		/*
 		 * Step 1: Fetch the login page, and extract csrf token
 		 */
@@ -59,12 +62,14 @@ public class BaseIntegrationTest {
 		ResponseEntity<String> loginHtml = 
 				rest.getForEntity(loginUrl, String.class);
 		String csrfToken = extractCsrf(loginHtml.getBody());
-
+		String beforeLoginSession = getSessionId(loginHtml);
+		
 		/*
 		 * Step 2: POST credentials + csrf token to login
 		 */
 		MultiValueMap<String, String> loginParams = getLoginParameters(username, password, csrfToken);
 		HttpHeaders headers = new HttpHeaders();
+		headers.add("Cookie", String.format("JSESSIONID=%s", beforeLoginSession));
 		HttpEntity<?> entity = new HttpEntity<Object>(loginParams, headers);
 		ResponseEntity<String> postResponse = 
 				rest.exchange(loginUrl, HttpMethod.POST, entity, String.class);
@@ -72,18 +77,21 @@ public class BaseIntegrationTest {
 		/*
 		 * Step 3 : Extract Session ID and return
 		 */
+		return getSessionId(postResponse);
+	}
+
+	private String getSessionId(ResponseEntity<?> response) {
 		Pattern sessionIDRegex = Pattern.compile(".*JSESSIONID=(\\w+).*");
-		List<String> cookies = postResponse.getHeaders().get("Set-Cookie");
+		List<String> cookies = response.getHeaders().get("Set-Cookie");
 		for(String cookie : cookies) {
 			Matcher matcher = sessionIDRegex.matcher(cookie);
 			if(matcher.find()) {
 				return matcher.group(1);
 			}
 		}
-		
 		throw new IllegalStateException("Could not find JSESSIONID even though login was successful");
 	}
-
+	
 	protected MultiValueMap<String, String> getLoginParameters(String username, String password, String csrfToken) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("username", username);
