@@ -10,10 +10,10 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import com.jayway.restassured.RestAssured;
 
@@ -37,8 +36,7 @@ public class BaseIntegrationTest {
 	private static final String baseURI = "http://localhost";
 	protected Printer printToConsole = new Printer();
 	
-	@Autowired
-	protected RestTemplate rest;
+	protected TestRestTemplate rest = new TestRestTemplate();
 	
     @Value("${local.server.port}")   // 6
     protected int port;
