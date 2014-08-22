@@ -1,0 +1,18 @@
+#################
+# Files
+#################
+*.class
+*.classpath
+*.project
+*.settings
+*.springBeans
+.DS_Store
+application.log
+src/main/resources/git.properties
+.externalToolBuilders
+
+#################
+# Directories
+#################
+target/
+bin/
