@@ -110,12 +110,8 @@
                 <version>2.12.1</version>
 				<executions>
 					<execution>
-						<id>validate</id>
-<<<<<<< HEAD
-						<phase>validate</phase>
-=======
+						<id>package</id>
 						<phase>package</phase>
->>>>>>> 9b7fff1fdf3d6de9e0d4cf7fe2957b0cc654c97f
 						<configuration>
 							<configLocation>${basedir}/src/test/resources/checkstyle.xml</configLocation>
 							<encoding>UTF-8</encoding>
@@ -135,12 +131,8 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <id>validate</id>
-<<<<<<< HEAD
-                        <phase>validate</phase>
-=======
+                        <id>test</id>
                         <phase>test</phase>
->>>>>>> 9b7fff1fdf3d6de9e0d4cf7fe2957b0cc654c97f
                         <configuration>
                             <xmlOutput>true</xmlOutput>
                             <xmlOutputDirectory>target/site</xmlOutputDirectory>
@@ -196,8 +188,6 @@
 			    <artifactId>git-commit-id-plugin</artifactId>
 			</plugin>
 	   </plugins>
-<<<<<<< HEAD
-=======
 	   <pluginManagement>
 	   	<plugins>
 	   		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
@@ -270,7 +260,6 @@
 	   		</plugin>
 	   	</plugins>
 	   </pluginManagement>
->>>>>>> 9b7fff1fdf3d6de9e0d4cf7fe2957b0cc654c97f
 	</build>
     	
 </project>

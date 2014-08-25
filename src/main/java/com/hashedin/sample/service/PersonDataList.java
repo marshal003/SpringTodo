@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PersonDataList {
 
-	List<PersonData> products;
+	private List<PersonData> products;
 
 	public List<PersonData> getProducts() {
 		return products;
