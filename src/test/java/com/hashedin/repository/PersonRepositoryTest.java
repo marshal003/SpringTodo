@@ -1,4 +1,4 @@
-package com.hashedin.sample.repository;
+package com.hashedin.repository;
 
 import static org.junit.Assert.*;
 
@@ -7,9 +7,9 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hashedin.sample.BaseUnitTest;
-import com.hashedin.sample.entity.Person;
-import com.hashedin.sample.repository.PersonRepository;
+import com.hashedin.BaseUnitTest;
+import com.hashedin.entity.Person;
+import com.hashedin.repository.PersonRepository;
  
 public class PersonRepositoryTest extends BaseUnitTest {
 

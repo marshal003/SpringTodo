@@ -1,4 +1,4 @@
-package com.hashedin.sample.service;
+package com.hashedin.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

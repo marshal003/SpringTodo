@@ -1,4 +1,4 @@
-package com.hashedin.sample.controller;
+package com.hashedin.controller;
 
 import java.util.Date;
 import java.util.HashMap;

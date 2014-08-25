@@ -1,4 +1,4 @@
-package com.hashedin.sample.entity;
+package com.hashedin.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

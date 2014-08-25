@@ -1,4 +1,4 @@
-package com.hashedin.sample;
+package com.hashedin;
 
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;

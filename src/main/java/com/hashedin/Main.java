@@ -1,4 +1,4 @@
-package com.hashedin.sample;
+package com.hashedin;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;

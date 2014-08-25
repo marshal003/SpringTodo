@@ -1,4 +1,4 @@
-package com.hashedin.sample;
+package com.hashedin;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -24,7 +24,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.hashedin.sample.Main;
+import com.hashedin.Main;
 import com.jayway.restassured.RestAssured;
 
 @RunWith(SpringJUnit4ClassRunner.class)

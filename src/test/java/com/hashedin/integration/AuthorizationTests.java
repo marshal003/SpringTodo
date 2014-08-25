@@ -1,11 +1,11 @@
-package com.hashedin.sample.integration;
+package com.hashedin.integration;
 
 import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.Test;
 
-import com.hashedin.sample.BaseIntegrationTest;
+import com.hashedin.BaseIntegrationTest;
 
 public class AuthorizationTests extends BaseIntegrationTest {
 	

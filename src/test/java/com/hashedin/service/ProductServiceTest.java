@@ -1,4 +1,4 @@
-package com.hashedin.sample.service;
+package com.hashedin.service;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,9 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 
-import com.hashedin.sample.BaseUnitTest;
+import com.hashedin.BaseUnitTest;
+import com.hashedin.service.PersonData;
+import com.hashedin.service.ProductService;
 
 public class ProductServiceTest extends BaseUnitTest {
 	
