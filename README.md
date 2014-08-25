@@ -36,7 +36,7 @@ This template is based out of Spring Boot. Spring Boot provides a default spring
 6.2 view name must not contain ".ftl" or the "templates" prefix
 
 7.  Controllers
-7.1 Basic things - @Controller, inside com.hashedin.artcollective package
+7.1 Basic things - @Controller, inside com.hashedin.sample package
 7.2 @RequestMapping, @Param
 7.3 Avoid using HttpServletRequest & HttpServletResponse 
 

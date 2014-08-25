@@ -2,17 +2,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.hashedin</groupId>
-	<artifactId>ArtCollectiveBackend</artifactId>
+	<artifactId>project</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Art Collective Backend APIs</name>
-	<url>http://artcollective.com</url>
-
+	<name>Spring Java API Template</name>
+	<url>http://hashedin.com</url>
 	<properties>
 	    <java.version>1.7</java.version>
 	    <checkstyle.config.location>${basedir}/src/test/resources/checkstyle.xml</checkstyle.config.location>
-	    <coverage.instruction.min>0.3</coverage.instruction.min>
-	    <coverage.complexity.min>0.3</coverage.complexity.min>
+	    <coverage.instruction.min>0.5</coverage.instruction.min>
+	    <coverage.complexity.min>0.5</coverage.complexity.min>
 	</properties>
 	
      <parent>
@@ -112,7 +111,11 @@
 				<executions>
 					<execution>
 						<id>validate</id>
+<<<<<<< HEAD
 						<phase>validate</phase>
+=======
+						<phase>package</phase>
+>>>>>>> 9b7fff1fdf3d6de9e0d4cf7fe2957b0cc654c97f
 						<configuration>
 							<configLocation>${basedir}/src/test/resources/checkstyle.xml</configLocation>
 							<encoding>UTF-8</encoding>
@@ -133,7 +136,11 @@
                 <executions>
                     <execution>
                         <id>validate</id>
+<<<<<<< HEAD
                         <phase>validate</phase>
+=======
+                        <phase>test</phase>
+>>>>>>> 9b7fff1fdf3d6de9e0d4cf7fe2957b0cc654c97f
                         <configuration>
                             <xmlOutput>true</xmlOutput>
                             <xmlOutputDirectory>target/site</xmlOutputDirectory>
@@ -189,6 +196,81 @@
 			    <artifactId>git-commit-id-plugin</artifactId>
 			</plugin>
 	   </plugins>
+<<<<<<< HEAD
+=======
+	   <pluginManagement>
+	   	<plugins>
+	   		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+	   		<plugin>
+	   			<groupId>org.eclipse.m2e</groupId>
+	   			<artifactId>lifecycle-mapping</artifactId>
+	   			<version>1.0.0</version>
+	   			<configuration>
+	   				<lifecycleMappingMetadata>
+	   					<pluginExecutions>
+	   						<pluginExecution>
+	   							<pluginExecutionFilter>
+	   								<groupId>
+	   									org.apache.maven.plugins
+	   								</groupId>
+	   								<artifactId>
+	   									maven-checkstyle-plugin
+	   								</artifactId>
+	   								<versionRange>
+	   									[2.12.1,)
+	   								</versionRange>
+	   								<goals>
+	   									<!--  <goal>check</goal>  -->
+	   								</goals>
+	   							</pluginExecutionFilter>
+	   							<action>
+	   								<ignore></ignore>
+	   							</action>
+	   						</pluginExecution>
+	   						<pluginExecution>
+	   							<pluginExecutionFilter>
+	   								<groupId>
+	   									org.codehaus.mojo
+	   								</groupId>
+	   								<artifactId>
+	   									findbugs-maven-plugin
+	   								</artifactId>
+	   								<versionRange>
+	   									[3.0.0,)
+	   								</versionRange>
+	   								<goals>
+	   									<!--  <goal>check</goal>  -->
+	   									<goal>check</goal>
+	   								</goals>
+	   							</pluginExecutionFilter>
+	   							<action>
+	   								<ignore></ignore>
+	   							</action>
+	   						</pluginExecution>
+	   						<pluginExecution>
+	   							<pluginExecutionFilter>
+	   								<groupId>org.jacoco</groupId>
+	   								<artifactId>
+	   									jacoco-maven-plugin
+	   								</artifactId>
+	   								<versionRange>
+	   									[0.7.1.201405082137,)
+	   								</versionRange>
+	   								<goals>
+	   									<goal>prepare-agent</goal>
+	   								</goals>
+	   							</pluginExecutionFilter>
+	   							<action>
+	   								<ignore></ignore>
+	   							</action>
+	   						</pluginExecution>
+	   					</pluginExecutions>
+	   				</lifecycleMappingMetadata>
+	   			</configuration>
+	   		</plugin>
+	   	</plugins>
+	   </pluginManagement>
+>>>>>>> 9b7fff1fdf3d6de9e0d4cf7fe2957b0cc654c97f
 	</build>
     	
 </project>

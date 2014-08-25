@@ -8,6 +8,8 @@
 *.springBeans
 application.log
 src/main/resources/git.properties
+.DS_Store
+.externalToolBuilders
 
 #################
 # Directories
