@@ -1,5 +1,8 @@
 package com.hashedin;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.slf4j.Logger;
@@ -12,8 +15,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import com.hashedin.controller.JsonViewResolver;
 
 
 @EnableWebSecurity
@@ -59,6 +67,29 @@ public class Main extends WebMvcConfigurerAdapter {
 		return new RestTemplate(factory);
 	}
 
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		
+		/*
+		 * Forcefully return JSON when showModel=true
+		 * Helps debugging views
+		 */
+		registry.addInterceptor(new HandlerInterceptorAdapter() {
+
+			@Override
+			public void postHandle(HttpServletRequest request,
+					HttpServletResponse response, Object handler,
+					ModelAndView modelAndView) throws Exception {
+				
+				if ("true".equalsIgnoreCase(request.getParameter("showModel"))) {
+					modelAndView.setView(
+							JsonViewResolver.INSTANCE.resolveViewName(null, null));
+				}
+			}
+			
+		});
+	};
+	
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("login");
