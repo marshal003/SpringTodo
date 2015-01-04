@@ -4,15 +4,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.hashedin.repository.PersonRepositoryTest;
-import com.hashedin.service.ProductServiceTest;
+import com.hashedin.repository.TaskRepositoryTest;
+import com.hashedin.repository.UserRepositoryTest;
+import com.hashedin.service.TaskServiceTest;
 import com.hashedin.task.TaskQueueTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
-	PersonRepositoryTest.class,
-	ProductServiceTest.class,
-	TaskQueueTest.class
+	TaskQueueTest.class,
+	TaskRepositoryTest.class,
+	UserRepositoryTest.class,
+	TaskServiceTest.class
 })
 public class UnitTests {
 
