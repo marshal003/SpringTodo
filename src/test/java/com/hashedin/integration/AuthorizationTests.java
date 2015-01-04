@@ -7,23 +7,7 @@ import org.junit.Test;
 
 import com.hashedin.BaseIntegrationTest;
 
-
-/* This Integration test is depends on - Google's RestAssured library
- * Please refer the link for more details - 
- * {@link https://code.google.com/p/rest-assured/wiki/Usage#Example_1_-_JSON}
- * {@link org.hamcrest}
- */
 public class AuthorizationTests extends BaseIntegrationTest {
-	
-	
-	@Test
-	public void testGetUserResource(){
-		given()
-		.sessionId(login("artist", "artist"))
-		.when().get("/api/users")
-			.then()
-			.body("$", hasSize(0));
-	}
 	
 	@Test
 	public void testHomePageIsPublicallyAccessible() {
