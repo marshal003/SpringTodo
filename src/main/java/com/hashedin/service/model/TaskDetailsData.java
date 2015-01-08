@@ -10,7 +10,7 @@ import com.hashedin.entity.TaskPriority;
 import com.hashedin.entity.TaskStatus;
 
 
-public class TaskResponseData {
+public class TaskDetailsData {
 
 	@JsonProperty
 	private Long taskId;
@@ -133,7 +133,7 @@ public class TaskResponseData {
 		this.comments = comments;
 	}
 
-	public TaskResponseData(Task task){
+	public TaskDetailsData(Task task){
 		this.taskId = task.getTaskId();
 		this.assignedTo = new UserData(task.getAssignedTo());
 		this.comments = task.getComments();

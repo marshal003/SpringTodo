@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hashedin.entity.TaskPriority;
 
 @JsonIgnoreProperties
-public class TaskRequestData {
+public class TaskData {
 
 	@JsonProperty("task")
 	private String task;
@@ -56,16 +56,16 @@ public class TaskRequestData {
 		this.priority = priority;
 	}
 
-	public TaskRequestData(){
+	public TaskData(){
 		
 	}
 	
-	public TaskRequestData(String task, Long userId){
+	public TaskData(String task, Long userId){
 		this.createdBy = userId;
 		this.task = task;
 	}
 	
-	public TaskRequestData(TaskRequestData data){
+	public TaskData(TaskData data){
 		this.task = data.task;
 		this.createdBy = data.createdBy;
 		this.dueDate = data.dueDate;

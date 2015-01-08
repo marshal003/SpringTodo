@@ -17,8 +17,8 @@ import com.hashedin.repository.UserRepository;
 import com.hashedin.service.exception.ResourceAlreadyExistException;
 import com.hashedin.service.exception.ResourceNotFoundException;
 import com.hashedin.service.model.CommentData;
-import com.hashedin.service.model.TaskRequestData;
-import com.hashedin.service.model.TaskResponseData;
+import com.hashedin.service.model.TaskData;
+import com.hashedin.service.model.TaskDetailsData;
 import com.hashedin.service.model.UserData;
 
 
@@ -35,11 +35,11 @@ public class TodoServiceImpl implements TodoService{
 	private CommentRepository commentRepo;
 	
 	@Override
-	public TaskResponseData createTask(TaskRequestData taskData) throws ResourceNotFoundException {
+	public TaskDetailsData createTask(TaskData taskData) throws ResourceNotFoundException {
 		User user = getUserEntityById(taskData.getCreatedBy());
 		Task task = new Task(taskData);
 		task.setCreatedBy(user);
-		return new TaskResponseData(taskRepo.save(task));
+		return new TaskDetailsData(taskRepo.save(task));
 	}
 
 	@Override
@@ -82,19 +82,19 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public List<TaskResponseData> getAllTasks() {
+	public List<TaskDetailsData> getAllTasks() {
 		List<Task> existingTasks = (List<Task>) taskRepo.findAll();
-		List<TaskResponseData> responseData = new ArrayList<TaskResponseData>();
+		List<TaskDetailsData> responseData = new ArrayList<TaskDetailsData>();
 		for(Task task : existingTasks){
-			responseData.add(new TaskResponseData(task));
+			responseData.add(new TaskDetailsData(task));
 		}
 		return responseData;
 	}
 
 	@Override
-	public TaskResponseData getTaskById(Long taskId) throws ResourceNotFoundException{
+	public TaskDetailsData getTaskById(Long taskId) throws ResourceNotFoundException{
 		Task existingTask = getTaskEntityById(taskId);
-		return new TaskResponseData(existingTask);
+		return new TaskDetailsData(existingTask);
 	}
 
 	@Override
@@ -164,5 +164,15 @@ public class TodoServiceImpl implements TodoService{
 	public void removeUser(Long userId) throws ResourceNotFoundException {
 		User user = getUserEntityById(userId);
 		userRepo.delete(user.getUserId());
+	}
+
+	@Override
+	public void removeAlltasks() {
+		taskRepo.deleteAll();
+	}
+
+	@Override
+	public void removeAllUsers() {
+		userRepo.deleteAll();
 	}
 }

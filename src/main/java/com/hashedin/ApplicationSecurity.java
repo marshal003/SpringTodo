@@ -10,16 +10,12 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/", "/home").permitAll()
-			.antMatchers("/api/**").permitAll()
 			.antMatchers("/secure/dashboard").hasAuthority("PERM_READ_DASHBOARD")
 			.antMatchers("/assets/**").permitAll()
 			.antMatchers("/manage/**").hasRole("SUPERADMIN")
 			.anyRequest().fullyAuthenticated();
 		
-		http.csrf().disable();
-		
 		http
-			.csrf().disable()
 			.formLogin()
 				.loginPage("/login").failureUrl("/login?error").permitAll()
 			.and()

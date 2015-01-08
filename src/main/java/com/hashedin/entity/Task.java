@@ -3,6 +3,7 @@ package com.hashedin.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import com.hashedin.service.model.TaskRequestData;
+import com.hashedin.service.model.TaskData;
 
 
 @Entity
@@ -53,7 +54,7 @@ public class Task {
 		this.assignedTo = assignedTo;
 	}
 
-	@OneToMany(mappedBy="commentedOn")
+	@OneToMany(mappedBy="commentedOn", orphanRemoval=true)
 	private List<Comment> comments;
 	
 	public List<Comment> getComments() {
@@ -177,7 +178,7 @@ public class Task {
 		
 	}
 	
-	public Task(TaskRequestData data){
+	public Task(TaskData data){
 		this.task = data.getTask();
 		this.notes = data.getNotes();
 		this.priority = data.getPriority();

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+
 @Controller
 public final class WebApplicationController {
 	
@@ -27,5 +28,10 @@ public final class WebApplicationController {
 		model.put("message", "Hello to Secure World!");
 		
 		return new ModelAndView("index", model);
+	}
+	
+	@RequestMapping("/todo")
+	public ModelAndView todoAppHome(){
+		return new ModelAndView("index", null);
 	}
 }

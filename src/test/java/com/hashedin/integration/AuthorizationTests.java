@@ -19,10 +19,10 @@ public class AuthorizationTests extends BaseIntegrationTest {
 	@Test
 	public void testGetUserResource(){
 		given()
-		.sessionId(login("artist", "artist"))
-		.when().get("/api/users")
+			.sessionId(login("user", "user123"))
+			.when().get("/api/users")
 			.then()
-			.body("$", hasSize(0));
+				.body("$", hasSize(0));
 	}
 	
 	@Test
@@ -40,26 +40,6 @@ public class AuthorizationTests extends BaseIntegrationTest {
 		.when().get("/secure/dashboard")
 		.then()
 			.body(containsString("Please Login"));
-	}
-	
-	@Test
-	public void testGetProductsIsAccessibleToShoppers() {
-		given()
-			.sessionId(login("superadmin", "superadmin"))
-		.when().get("/api/products")
-		.then()
-			.statusCode(200)
-			.root("data")
-			.body("title", hasItems("iPhone", "Nexus"));
-	}
-	
-	@Test
-	public void testManagementAPIsAreNotAccessibleToShoppers() {
-		given()
-			.sessionId(login("shopper", "shopper"))
-		.when().get("/manage/mappings")
-		.then()
-			.body(containsString("Access is denied"));
 	}
 	
 	@Test

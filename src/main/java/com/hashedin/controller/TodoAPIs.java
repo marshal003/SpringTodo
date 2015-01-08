@@ -15,8 +15,8 @@ import com.hashedin.entity.TaskStatus;
 import com.hashedin.service.TodoService;
 import com.hashedin.service.exception.ResourceAlreadyExistException;
 import com.hashedin.service.exception.ResourceNotFoundException;
-import com.hashedin.service.model.TaskRequestData;
-import com.hashedin.service.model.TaskResponseData;
+import com.hashedin.service.model.TaskData;
+import com.hashedin.service.model.TaskDetailsData;
 import com.hashedin.service.model.UserData;
 
 
@@ -28,20 +28,20 @@ public class TodoAPIs {
 	
 	// Get All existing tasks
 	@RequestMapping(value = "api/tasks", method = RequestMethod.GET)
-	public Iterable<TaskResponseData> getAllTasks(){
+	public Iterable<TaskDetailsData> getAllTasks(){
 		return todoService.getAllTasks();
 	}
 	
 	// Create new Task
 	@RequestMapping(value="api/tasks", method = RequestMethod.POST)
-	public TaskResponseData createTask(@RequestBody TaskRequestData data) 
+	public TaskDetailsData createTask(@RequestBody TaskData data) 
 			throws ResourceNotFoundException{ // Return Resource Not Found
 		return todoService.createTask(data); 
 	}
 
 	// Get a particular Task
 	@RequestMapping(value = "api/tasks/{taskId:[0-9]+}", method = RequestMethod.GET)
-	public TaskResponseData getTaskById(@PathVariable("taskId") Long taskId) 
+	public TaskDetailsData getTaskById(@PathVariable("taskId") Long taskId) 
 			throws ResourceNotFoundException{
 		return todoService.getTaskById(taskId);	
 	}
@@ -91,7 +91,7 @@ public class TodoAPIs {
 	}
 
 	@RequestMapping(value = "api/users/{userId:[0-9]+}", method = RequestMethod.POST)
-	public UserData createUser(@PathVariable("userId") Long userId) 
+	public UserData getUserById(@PathVariable("userId") Long userId) 
 			throws ResourceAlreadyExistException, ResourceNotFoundException{
 		return todoService.getUserById(userId);
 	}

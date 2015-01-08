@@ -1,14 +1,9 @@
 package com.hashedin.integration;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
-import groovy.time.BaseDuration.From;
-
 import org.junit.Test;
-
 import com.hashedin.BaseIntegrationTest;
-import com.hashedin.entity.User;
-import com.hashedin.service.model.TaskRequestData;
+import com.hashedin.service.model.TaskData;
 import com.hashedin.service.model.UserData;
 import com.jayway.restassured.path.json.JsonPath;
 
@@ -21,8 +16,12 @@ public class TodoRestTest extends BaseIntegrationTest{
 	@Test
 	public void testGetTaskResource(){
 		given()
-		.when().get("/api/tasks")
+			.with()
+			.sessionId(login("user", "user123"))
+			.when()
+			.get("/api/tasks")
 			.then()
+			.statusCode(200)
 			.body("$", hasSize(0));  // ""/"$" for root element
 	}
 	
@@ -31,11 +30,13 @@ public class TodoRestTest extends BaseIntegrationTest{
 		UserData user = new UserData("vinit", "rai", "marshal@gmail.com");
 	
 		given()
+			.sessionId(login("user", "user123"))
 			.when().get("/api/users").then()
 			.statusCode(200)
 			.body("$", hasSize(0));
 		
 		given()
+			.sessionId(login("user", "user123"))
 			.contentType("application/json")
 			.when()
 			.body(user)
@@ -52,15 +53,18 @@ public class TodoRestTest extends BaseIntegrationTest{
 		JsonPath path = new JsonPath(response);
 		Long userId = path.getLong("userId");
 		
-		TaskRequestData task = new TaskRequestData("Sample Task", userId);
+		TaskData task = new TaskData("Sample Task", userId);
 		
 		String taskResponse = given()
+								.sessionId(login("user", "user123"))
 								.contentType("application/json")
-								.when()
 								.body(task)
+								.expect()
+								.statusCode(200)
+								.when()
 								.post("/api/tasks")
-								.then().statusCode(200)
-								.extract()
+								.andReturn()
+								.body()
 								.asString();
 		
 		path = new JsonPath(taskResponse);
@@ -71,21 +75,29 @@ public class TodoRestTest extends BaseIntegrationTest{
 	}
 
 	private void removeUser(Long userId){
-		given().delete("/api/users/" + userId)
+		given()
+			.sessionId(login("user", "user123"))
+			.delete("/api/users/" + userId)
 			.then()
 			.statusCode(200);
 	}
 	
 	private void removeTask(Long taskId){
-		given().delete("/api/tasks/" + taskId)
-		.then()
-		.statusCode(200);
+		given()
+			.sessionId(login("user", "user123"))
+			.delete("/api/tasks/" + taskId)
+			.then()
+			.statusCode(200);
 	}
 
 	private String addUser(UserData data){
 		return given()
+				.sessionId(login("user", "user123"))
 				.contentType("application/json")
 				.body(data)
+				.expect()
+				.statusCode(200)
+				.when()
 				.post("/api/users")
 				.andReturn()
 				.body().asString();

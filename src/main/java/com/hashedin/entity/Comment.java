@@ -22,13 +22,13 @@ public class Comment {
 	// One Task can have multiple comments.
 	// There should be a foreign_key (task_id) to task table.
 	@JoinColumn(name="task_id")
-	@ManyToOne	
+	@ManyToOne
 	private Task commentedOn;
 	
 	// One User can made multiple comments
 	// There should be a foreign_key (user_id) to user table.
 	@JoinColumn(name="user_id")
-	@ManyToOne   
+	@ManyToOne
 	private User commentedBy;
 	
 	private Date createdAt;
@@ -80,6 +80,8 @@ public class Comment {
 		Date now = new Date();
 		this.createdAt = now;
 	}
+	
+	public Comment(){}
 	
 	public Comment(CommentData data){
 		this.commentText = data.getCommentText();

@@ -16,9 +16,6 @@ class AuthenticationSecurity extends
 		 */
 		auth.inMemoryAuthentication()
 				.withUser("superadmin").password("superadmin").roles("SUPERADMIN").and()
-				.withUser("artist").password("artist")
-					.authorities("PERM_READ_DASHBOARD").and()
-				.withUser("shopper").password("shopper")
-					.authorities("PERM_READ_ORDERS").and();
+				.withUser("user").password("user123").roles("PERM_TODO_USER");
 	}
 }
