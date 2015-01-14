@@ -71,7 +71,7 @@ public class TaskServiceTest  extends BaseUnitTest{
 		assertEquals("Matching Task Name", data.getTask(), response.getTask());
 		assertEquals("Matching Task Status", TaskStatus.CREATED, response.getStatus());
 		assertEquals("Matching Task Priority", TaskPriority.HIGH, response.getPriority());
-		assertEquals("Matching Task Assigned To", null, response.getAssignedTo());
+		assertEquals("Matching Task Assigned To", null, response.getAssignedTo().getEmail());
 		assertEquals("Matching Task Comments", null, response.getComments());
 		assertNotNull(response.getCreatedBy());
 	}

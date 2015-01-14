@@ -16,8 +16,6 @@ public class TodoRestTest extends BaseIntegrationTest{
 	@Test
 	public void testGetTaskResource(){
 		given()
-			.with()
-			.sessionId(login("user", "user123"))
 			.when()
 			.get("/api/tasks")
 			.then()
@@ -30,13 +28,11 @@ public class TodoRestTest extends BaseIntegrationTest{
 		UserData user = new UserData("vinit", "rai", "marshal@gmail.com");
 	
 		given()
-			.sessionId(login("user", "user123"))
-			.when().get("/api/users").then()
+			.get("/api/users").then()
 			.statusCode(200)
 			.body("$", hasSize(0));
 		
 		given()
-			.sessionId(login("user", "user123"))
 			.contentType("application/json")
 			.when()
 			.body(user)
@@ -56,7 +52,6 @@ public class TodoRestTest extends BaseIntegrationTest{
 		TaskData task = new TaskData("Sample Task", userId);
 		
 		String taskResponse = given()
-								.sessionId(login("user", "user123"))
 								.contentType("application/json")
 								.body(task)
 								.expect()
@@ -76,7 +71,6 @@ public class TodoRestTest extends BaseIntegrationTest{
 
 	private void removeUser(Long userId){
 		given()
-			.sessionId(login("user", "user123"))
 			.delete("/api/users/" + userId)
 			.then()
 			.statusCode(200);
@@ -84,7 +78,6 @@ public class TodoRestTest extends BaseIntegrationTest{
 	
 	private void removeTask(Long taskId){
 		given()
-			.sessionId(login("user", "user123"))
 			.delete("/api/tasks/" + taskId)
 			.then()
 			.statusCode(200);
@@ -92,7 +85,6 @@ public class TodoRestTest extends BaseIntegrationTest{
 
 	private String addUser(UserData data){
 		return given()
-				.sessionId(login("user", "user123"))
 				.contentType("application/json")
 				.body(data)
 				.expect()

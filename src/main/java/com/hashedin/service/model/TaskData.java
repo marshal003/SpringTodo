@@ -9,6 +9,13 @@ import com.hashedin.entity.TaskPriority;
 @JsonIgnoreProperties
 public class TaskData {
 
+	public Long getAssignedTo() {
+		return assignedTo;
+	}
+	public void setAssignedTo(Long assignedTo) {
+		this.assignedTo = assignedTo;
+	}
+
 	@JsonProperty("task")
 	private String task;
 	
@@ -23,6 +30,9 @@ public class TaskData {
 	
 	@JsonProperty("priority")
 	private TaskPriority priority;
+	
+	@JsonProperty("assignedTo")
+	private Long assignedTo;
 
 	public String getTask() {
 		return task;

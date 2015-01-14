@@ -39,6 +39,12 @@ public class TodoServiceImpl implements TodoService{
 		User user = getUserEntityById(taskData.getCreatedBy());
 		Task task = new Task(taskData);
 		task.setCreatedBy(user);
+		User assignedTo = null;
+		if(taskData.getAssignedTo() != null){
+			assignedTo = getUserEntityById(taskData.getAssignedTo());
+		}
+		task.setAssignedTo(assignedTo);
+
 		return new TaskDetailsData(taskRepo.save(task));
 	}
 

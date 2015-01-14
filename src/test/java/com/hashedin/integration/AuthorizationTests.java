@@ -19,7 +19,6 @@ public class AuthorizationTests extends BaseIntegrationTest {
 	@Test
 	public void testGetUserResource(){
 		given()
-			.sessionId(login("user", "user123"))
 			.when().get("/api/users")
 			.then()
 				.body("$", hasSize(0));
