@@ -6,10 +6,10 @@ public class CommentData {
 
 	@JsonProperty("taskId")
 	private Long taskId;
-	
+
 	@JsonProperty("userId")
 	private Long userId;
-	
+
 	@JsonProperty("commentText")
 	private String commentText;
 
@@ -36,5 +36,5 @@ public class CommentData {
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;
 	}
-	
+
 }

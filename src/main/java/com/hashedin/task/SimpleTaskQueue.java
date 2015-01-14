@@ -6,11 +6,10 @@ import org.springframework.context.ApplicationContextAware;
 public class SimpleTaskQueue implements TaskQueue, ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
-	
+
 	@Override
-	public <P, T extends Task<P>> 
-				void enqueue(Class<T> clazz, P parameter) {
-		
+	public <P, T extends Task<P>> void enqueue(Class<T> clazz, P parameter) {
+
 		T task = applicationContext.getBean(clazz);
 		task.execute(parameter);
 	}

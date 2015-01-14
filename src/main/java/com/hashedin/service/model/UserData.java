@@ -4,25 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hashedin.entity.User;
 
-
 @JsonIgnoreProperties
 public class UserData {
 
 	@JsonProperty
 	private String firstName;
-	
+
 	@JsonProperty
 	private String lastName;
-	
+
 	@JsonProperty
 	private String fullName;
-	
+
 	@JsonProperty
 	private String email;
 
 	@JsonProperty
 	private Long userId;
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -58,19 +57,19 @@ public class UserData {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	
-	public UserData(){
-		
+
+	public UserData() {
+
 	}
-	
-	public UserData(String firstName, String lastName, String email){
+
+	public UserData(String firstName, String lastName, String email) {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-	
-	public UserData(User user){
-		if(user != null){
+
+	public UserData(User user) {
+		if (user != null) {
 			this.firstName = user.getFirstName();
 			this.lastName = user.getLastName();
 			this.userId = user.getUserId();

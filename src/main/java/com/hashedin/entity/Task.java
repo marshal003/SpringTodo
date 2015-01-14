@@ -17,34 +17,35 @@ import javax.persistence.PreUpdate;
 
 import com.hashedin.service.model.TaskData;
 
-
 @Entity
 public class Task {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long taskId;
-	
+
 	private String task;
-	
+
 	private String description;
-	
+
 	private Date createdAt;
-	
+
 	private Date updatedAt;
-	
+
 	private Date dueDate;
-	
+
 	private String notes;
-	
-	@ManyToOne				// One User can create multiple tasks.
-	@JoinColumn(name="createdBy")
+
+	@ManyToOne
+	// One User can create multiple tasks.
+	@JoinColumn(name = "createdBy")
 	private User createdBy;
-	
-	@ManyToOne			// One User can have multiple assigned tasks. 
-	@JoinColumn(name="assignedTo")
+
+	@ManyToOne
+	// One User can have multiple assigned tasks.
+	@JoinColumn(name = "assignedTo")
 	private User assignedTo;
-	
+
 	public User getAssignedTo() {
 		return assignedTo;
 	}
@@ -53,9 +54,9 @@ public class Task {
 		this.assignedTo = assignedTo;
 	}
 
-	@OneToMany(mappedBy="commentedOn", orphanRemoval=true)
+	@OneToMany(mappedBy = "commentedOn", orphanRemoval = true)
 	private List<Comment> comments;
-	
+
 	public List<Comment> getComments() {
 		return comments;
 	}
@@ -82,10 +83,10 @@ public class Task {
 
 	@Enumerated(EnumType.STRING)
 	private TaskStatus status;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TaskPriority priority;
-	
+
 	public TaskStatus getStatus() {
 		return status;
 	}
@@ -101,7 +102,7 @@ public class Task {
 	public void setPriority(TaskPriority priority) {
 		this.priority = priority;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -138,29 +139,28 @@ public class Task {
 		this.task = task;
 	}
 
-
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
 	@PrePersist
-	public void prePersist(){
+	public void prePersist() {
 		Date now = new Date();
 		this.createdAt = now;
 		this.updatedAt = now;
-		if(this.priority == null){
+		if (this.priority == null) {
 			this.priority = TaskPriority.HIGH;
 		}
-		if(this.status == null){
+		if (this.status == null) {
 			this.status = TaskStatus.CREATED;
 		}
-		if(this.dueDate == null){
+		if (this.dueDate == null) {
 			this.dueDate = this.createdAt;
 		}
 	}
-	
+
 	@PreUpdate
-	public void preUpdate(){
+	public void preUpdate() {
 		Date now = new Date();
 		this.updatedAt = now;
 	}
@@ -172,31 +172,31 @@ public class Task {
 	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
-	
-	public Task(){
-		
+
+	public Task() {
+
 	}
-	
-	public Task(TaskData data){
+
+	public Task(TaskData data) {
 		this.task = data.getTask();
 		this.notes = data.getNotes();
 		this.priority = data.getPriority();
 		this.dueDate = data.getDueDate();
 	}
-	
-	public Task(User createdBy, String task){
+
+	public Task(User createdBy, String task) {
 		this.createdBy = createdBy;
 		this.task = task;
 	}
-	
-	public Task(User user, String task, TaskPriority priority){
+
+	public Task(User user, String task, TaskPriority priority) {
 		this(user, task);
 		this.priority = priority;
 	}
-	
-	public Task(User user, String task, TaskPriority priority, String notes){
+
+	public Task(User user, String task, TaskPriority priority, String notes) {
 		this(user, task, priority);
 		this.notes = notes;
 	}
-	
+
 }

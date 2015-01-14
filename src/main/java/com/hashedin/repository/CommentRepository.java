@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hashedin.entity.Comment;
 
 @Repository
-public interface CommentRepository extends CrudRepository<Comment, Long>{
+public interface CommentRepository extends CrudRepository<Comment, Long> {
 
 }

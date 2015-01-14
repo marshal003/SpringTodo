@@ -1,6 +1,5 @@
 package com.hashedin.service;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,26 +20,26 @@ import com.hashedin.service.model.TaskData;
 import com.hashedin.service.model.TaskDetailsData;
 import com.hashedin.service.model.UserData;
 
-
 @Service
-public class TodoServiceImpl implements TodoService{
+public class TodoServiceImpl implements TodoService {
 
 	@Autowired
 	private TaskRepository taskRepo;
-	
+
 	@Autowired
 	private UserRepository userRepo;
-	
+
 	@Autowired
 	private CommentRepository commentRepo;
-	
+
 	@Override
-	public TaskDetailsData createTask(TaskData taskData) throws ResourceNotFoundException {
+	public TaskDetailsData createTask(TaskData taskData)
+			throws ResourceNotFoundException {
 		User user = getUserEntityById(taskData.getCreatedBy());
 		Task task = new Task(taskData);
 		task.setCreatedBy(user);
 		User assignedTo = null;
-		if(taskData.getAssignedTo() != null){
+		if (taskData.getAssignedTo() != null) {
 			assignedTo = getUserEntityById(taskData.getAssignedTo());
 		}
 		task.setAssignedTo(assignedTo);
@@ -49,14 +48,16 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public void updateTaskStatus(Long taskId, TaskStatus status) throws ResourceNotFoundException {
+	public void updateTaskStatus(Long taskId, TaskStatus status)
+			throws ResourceNotFoundException {
 		Task existingTask = getTaskEntityById(taskId);
 		existingTask.setStatus(status);
 		taskRepo.save(existingTask);
 	}
 
 	@Override
-	public void assignedTask(Long taskId, Long userId) throws ResourceNotFoundException {
+	public void assignedTask(Long taskId, Long userId)
+			throws ResourceNotFoundException {
 		Task existingTask = getTaskEntityById(taskId);
 		User existingUser = getUserEntityById(userId);
 		existingTask.setAssignedTo(existingUser);
@@ -71,19 +72,21 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public UserData addUser(UserData userData) throws ResourceAlreadyExistException {
-		User existingUserWithSameEmail = userRepo.findByEmail(userData.getEmail());
-		if(existingUserWithSameEmail != null){
-			throw new ResourceAlreadyExistException(String.format("User with email %s already exists", 
-					userData.getEmail()));
+	public UserData addUser(UserData userData)
+			throws ResourceAlreadyExistException {
+		User existingUserWithSameEmail = userRepo.findByEmail(userData
+				.getEmail());
+		if (existingUserWithSameEmail != null) {
+			throw new ResourceAlreadyExistException(String.format(
+					"User with email %s already exists", userData.getEmail()));
 		}
-		
+
 		// Create new User entity model
 		User newUserEntity = new User(userData);
-		
+
 		// Save User entity into database
 		User savedUserentity = userRepo.save(newUserEntity);
-		
+
 		return new UserData(savedUserentity);
 	}
 
@@ -91,14 +94,15 @@ public class TodoServiceImpl implements TodoService{
 	public List<TaskDetailsData> getAllTasks() {
 		List<Task> existingTasks = (List<Task>) taskRepo.findAll();
 		List<TaskDetailsData> responseData = new ArrayList<TaskDetailsData>();
-		for(Task task : existingTasks){
+		for (Task task : existingTasks) {
 			responseData.add(new TaskDetailsData(task));
 		}
 		return responseData;
 	}
 
 	@Override
-	public TaskDetailsData getTaskById(Long taskId) throws ResourceNotFoundException{
+	public TaskDetailsData getTaskById(Long taskId)
+			throws ResourceNotFoundException {
 		Task existingTask = getTaskEntityById(taskId);
 		return new TaskDetailsData(existingTask);
 	}
@@ -110,7 +114,7 @@ public class TodoServiceImpl implements TodoService{
 		Comment comment = new Comment(data);
 		comment.setCommentedBy(existingUser);
 		comment.setCommentedOn(existingTask);
-		
+
 		// Save comment
 		commentRepo.save(comment);
 	}
@@ -119,7 +123,7 @@ public class TodoServiceImpl implements TodoService{
 	public List<UserData> getAllUser() {
 		List<User> existingUsers = (List<User>) userRepo.findAll();
 		List<UserData> response = new ArrayList<UserData>();
-		for(User user : existingUsers){
+		for (User user : existingUsers) {
 			response.add(new UserData(user));
 		}
 		return response;
@@ -132,30 +136,32 @@ public class TodoServiceImpl implements TodoService{
 	}
 
 	@Override
-	public UserData getUserOfEmail(String email){
+	public UserData getUserOfEmail(String email) {
 		User existingUser = userRepo.findByEmail(email);
-		if(existingUser == null){
+		if (existingUser == null) {
 			return null;
 		}
 		return new UserData(existingUser);
 	}
 
 	// Helper method
-	private User getUserEntityById(Long userId) throws ResourceNotFoundException{
+	private User getUserEntityById(Long userId)
+			throws ResourceNotFoundException {
 		User user = userRepo.findOne(userId);
-		if(user == null){
-			throw new ResourceNotFoundException("Unable to find User with user_id " + 
-						userId);
+		if (user == null) {
+			throw new ResourceNotFoundException(
+					"Unable to find User with user_id " + userId);
 		}
 		return user;
 	}
-	
+
 	// Helper method
-	private Task getTaskEntityById(Long taskId) throws ResourceNotFoundException{
+	private Task getTaskEntityById(Long taskId)
+			throws ResourceNotFoundException {
 		Task existingTask = taskRepo.findOne(taskId);
-		if(existingTask == null){
-			throw new ResourceNotFoundException("Unable to find Task with task_id " + 
-					taskId);
+		if (existingTask == null) {
+			throw new ResourceNotFoundException(
+					"Unable to find Task with task_id " + taskId);
 		}
 		return existingTask;
 	}

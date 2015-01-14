@@ -21,57 +21,61 @@ import com.hashedin.service.model.TaskData;
 import com.hashedin.service.model.TaskDetailsData;
 import com.hashedin.service.model.UserData;
 
-
-public class TaskServiceTest  extends BaseUnitTest{
+public class TaskServiceTest extends BaseUnitTest {
 
 	@Autowired
 	private TodoService todoService;
-	
+
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	
+
 	@Before
-	public void setUp() throws ResourceNotFoundException{
+	public void setUp() throws ResourceNotFoundException {
 		UserData data = todoService.getUserOfEmail("marshal@gmail.com");
-		if(data != null){
+		if (data != null) {
 			todoService.removeUser(data.getUserId());
 		}
 	}
-	
+
 	@After
-	public void tearDown(){
+	public void tearDown() {
 		todoService.removeAlltasks();
 		todoService.removeAllUsers();
 	}
-	
-	public TaskData createTask(String task, Long userId){
+
+	public TaskData createTask(String task, Long userId) {
 		TaskData data = new TaskData(task, userId);
 		data.setDueDate(new Date());
 		data.setNotes("This is a Sample Test Task");
 		return data;
 	}
-	
+
 	@Test
 	public void testTwoUserCannotHaveSameEmail() throws Exception {
 		todoService.addUser(new UserData("vinit", "rai", "marshal@gmail.com"));
 
-		UserData anotheruser = new UserData("Anurag", "Jain", "marshal@gmail.com");
-		
+		UserData anotheruser = new UserData("Anurag", "Jain",
+				"marshal@gmail.com");
+
 		exception.expect(ResourceAlreadyExistException.class);
 		todoService.addUser(anotheruser);
 	}
-	
+
 	@Test
 	public void testTaskCreate() throws Exception {
-		UserData user = todoService.addUser(new UserData("vinit", "rai", "marshal@gmail.com"));
-		
+		UserData user = todoService.addUser(new UserData("vinit", "rai",
+				"marshal@gmail.com"));
+
 		TaskData data = createTask("Sample task", user.getUserId());
 		TaskDetailsData response = todoService.createTask(data);
-		
+
 		assertEquals("Matching Task Name", data.getTask(), response.getTask());
-		assertEquals("Matching Task Status", TaskStatus.CREATED, response.getStatus());
-		assertEquals("Matching Task Priority", TaskPriority.HIGH, response.getPriority());
-		assertEquals("Matching Task Assigned To", null, response.getAssignedTo().getEmail());
+		assertEquals("Matching Task Status", TaskStatus.CREATED,
+				response.getStatus());
+		assertEquals("Matching Task Priority", TaskPriority.HIGH,
+				response.getPriority());
+		assertEquals("Matching Task Assigned To", null, response
+				.getAssignedTo().getEmail());
 		assertEquals("Matching Task Comments", null, response.getComments());
 		assertNotNull(response.getCreatedBy());
 	}
@@ -84,60 +88,63 @@ public class TaskServiceTest  extends BaseUnitTest{
 	}
 
 	@Test
-	public void testCannotRemoveInvallidUser() throws ResourceNotFoundException{
+	public void testCannotRemoveInvallidUser() throws ResourceNotFoundException {
 		exception.expect(ResourceNotFoundException.class);
 		todoService.removeUser(new Long(1234));
 	}
-	
+
 	@Test
-	public void testCannotRemoveInvallidTask() throws ResourceNotFoundException{
+	public void testCannotRemoveInvallidTask() throws ResourceNotFoundException {
 		exception.expect(ResourceNotFoundException.class);
 		todoService.removeTask(new Long(1234));
 	}
-	
+
 	@Test
-	public void testAddComment() throws Exception{
-		UserData user = todoService.addUser(new UserData("vinit", "rai", "marshal@gmail.com"));
+	public void testAddComment() throws Exception {
+		UserData user = todoService.addUser(new UserData("vinit", "rai",
+				"marshal@gmail.com"));
 		TaskData data = createTask("Sample task", user.getUserId());
 		TaskDetailsData response = todoService.createTask(data);
-		
+
 		CommentData comment = new CommentData();
 		comment.setCommentText("Sample Comment on Sapmle Task");
 		comment.setTaskId(response.getTaskId());
 		comment.setUserId(user.getUserId());
-		
+
 		todoService.addComment(comment);
-		
+
 		TaskDetailsData task = todoService.getTaskById(response.getTaskId());
 		assertNotNull(task.getComments());
 	}
-	
+
 	@Test
-	public void testAddCommentWithInvalidUserId() throws Exception{
-		UserData user = todoService.addUser(new UserData("vinit", "rai", "marshal@gmail.com"));
+	public void testAddCommentWithInvalidUserId() throws Exception {
+		UserData user = todoService.addUser(new UserData("vinit", "rai",
+				"marshal@gmail.com"));
 		TaskData data = createTask("Sample task", user.getUserId());
 		TaskDetailsData task = todoService.createTask(data);
-		
+
 		CommentData comment = new CommentData();
 		comment.setCommentText("Sample Comment on Sample Task");
 		comment.setTaskId(task.getTaskId());
 		comment.setUserId(new Long(3245));
-		
+
 		exception.expect(ResourceNotFoundException.class);
 		todoService.addComment(comment);
 	}
-	
+
 	@Test
-	public void testAddCommentWithInvalidTaskId() throws Exception{
-		UserData user = todoService.addUser(new UserData("vinit", "rai", "marshal@gmail.com"));
+	public void testAddCommentWithInvalidTaskId() throws Exception {
+		UserData user = todoService.addUser(new UserData("vinit", "rai",
+				"marshal@gmail.com"));
 		TaskData data = createTask("Sample task", user.getUserId());
 		TaskDetailsData task = todoService.createTask(data);
-		
+
 		CommentData comment = new CommentData();
 		comment.setCommentText("Sample Comment on Sapmle Task");
 		comment.setTaskId(new Long(324534234));
 		comment.setUserId(user.getUserId());
-		
+
 		exception.expect(ResourceNotFoundException.class);
 		todoService.addComment(comment);
 	}

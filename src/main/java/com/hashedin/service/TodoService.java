@@ -161,10 +161,10 @@ public interface TodoService {
 	 * Remove all Todo tasks from the database. Helpful in writing test cases.
 	 */
 	public void removeAlltasks();
-	
+
 	/**
 	 * Remove all Users from the database. Helpful in writing test cases.
 	 */
 	public void removeAllUsers();
-	
+
 }

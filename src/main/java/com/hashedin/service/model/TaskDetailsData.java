@@ -9,42 +9,41 @@ import com.hashedin.entity.Task;
 import com.hashedin.entity.TaskPriority;
 import com.hashedin.entity.TaskStatus;
 
-
 public class TaskDetailsData {
 
 	@JsonProperty
 	private Long taskId;
-	
+
 	@JsonProperty
 	private Date createdAt;
-	
+
 	@JsonProperty
 	private Date updatedAt;
-	
+
 	@JsonProperty
 	private Date dueDate;
-	
+
 	@JsonProperty
 	private String notes;
-	
+
 	@JsonProperty
 	private UserData createdBy;
-	
+
 	@JsonProperty
 	private UserData assignedTo;
-	
+
 	@JsonProperty
 	private List<Comment> comments;
 
 	@JsonProperty
 	private TaskStatus status;
-	
+
 	@JsonProperty
 	private TaskPriority priority;
-	
+
 	@JsonProperty
 	private String task;
-	
+
 	public String getTask() {
 		return task;
 	}
@@ -133,7 +132,7 @@ public class TaskDetailsData {
 		this.comments = comments;
 	}
 
-	public TaskDetailsData(Task task){
+	public TaskDetailsData(Task task) {
 		this.taskId = task.getTaskId();
 		this.assignedTo = new UserData(task.getAssignedTo());
 		this.comments = task.getComments();

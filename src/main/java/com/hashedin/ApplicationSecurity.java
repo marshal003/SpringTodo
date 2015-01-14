@@ -15,39 +15,37 @@ class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-			.antMatchers("/api/**").permitAll();
-		
-		http.authorizeRequests()
-			.antMatchers("/", "/home").permitAll()
-			.antMatchers("/secure/dashboard").hasAuthority("PERM_READ_DASHBOARD")
-			.antMatchers("/assets/**").permitAll()
-			.antMatchers("/manage/**").hasRole("SUPERADMIN")
-			.anyRequest().fullyAuthenticated();
-		
-		http
-			.formLogin()
-				.loginPage("/login").failureUrl("/login?error").permitAll()
-			.and()
-				.logout().logoutRequestMatcher(
-					new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
-		
-		http.csrf().requireCsrfProtectionMatcher(new CsrfSecurityRequestMatcher());
+		http.authorizeRequests().antMatchers("/api/**").permitAll();
+
+		http.authorizeRequests().antMatchers("/", "/home").permitAll()
+				.antMatchers("/secure/dashboard")
+				.hasAuthority("PERM_READ_DASHBOARD").antMatchers("/assets/**")
+				.permitAll().antMatchers("/manage/**").hasRole("SUPERADMIN")
+				.anyRequest().fullyAuthenticated();
+
+		http.formLogin().loginPage("/login").failureUrl("/login?error")
+				.permitAll().and().logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/login");
+
+		http.csrf().requireCsrfProtectionMatcher(
+				new CsrfSecurityRequestMatcher());
 	}
 }
 
 class CsrfSecurityRequestMatcher implements RequestMatcher {
-	
-	private Pattern allowedMethods = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
-	private RegexRequestMatcher unprotectedMatcher = new RegexRequestMatcher("/api/.*", null, true);
-	private RegexRequestMatcher loginMatcher = new RegexRequestMatcher("/login/.*", null, true);
-	
+
+	private Pattern allowedMethods = Pattern
+			.compile("^(GET|HEAD|TRACE|OPTIONS)$");
+	private RegexRequestMatcher unprotectedMatcher = new RegexRequestMatcher(
+			"/api/.*", null, true);
+
 	@Override
 	public boolean matches(HttpServletRequest request) {
-		if(allowedMethods.matcher(request.getMethod()).matches()){
-            return false;
-        }
+		if (allowedMethods.matcher(request.getMethod()).matches()) {
+			return false;
+		}
 		return !(unprotectedMatcher.matches(request));
 	}
-	
+
 }

@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.hashedin.BaseUnitTest;
 import com.hashedin.entity.User;
 
-public class UserRepositoryTest extends BaseUnitTest{
+public class UserRepositoryTest extends BaseUnitTest {
 
 	@Autowired
 	private UserRepository repository;
-	
+
 	@Before
-    public void setUpUsersTable(){
+	public void setUpUsersTable() {
 		// Create some user
 		List<User> newUsers = new ArrayList<User>();
 		newUsers.add(new User("vinit", "rai", "vinit@hashedin.com"));
@@ -28,14 +28,14 @@ public class UserRepositoryTest extends BaseUnitTest{
 	}
 
 	@After
-	public void cleanUpUsersTable(){
+	public void cleanUpUsersTable() {
 		repository.deleteAll();
 	}
-	
+
 	@Test
-	public void testGetAllUsers(){
+	public void testGetAllUsers() {
 		List<User> users = (List<User>) repository.findAll();
 		assertEquals("Got two users", 2, users.size());
 	}
-	
+
 }

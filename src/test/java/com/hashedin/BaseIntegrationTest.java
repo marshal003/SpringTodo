@@ -29,52 +29,56 @@ import com.jayway.restassured.RestAssured;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)
-@IntegrationTest("server.port=0") 
+@IntegrationTest("server.port=0")
 @WebAppConfiguration
 @ActiveProfiles("test")
 public class BaseIntegrationTest {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(BaseIntegrationTest.class);
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(BaseIntegrationTest.class);
+
 	private static final String baseURI = "http://localhost";
 	protected Printer printToConsole = new Printer();
-	
-    @Value("${local.server.port}")   // 6
-    protected int port;
-	
+
+	@Value("${local.server.port}")
+	// 6
+	protected int port;
+
 	@Before
 	public void _setUp() {
 		RestAssured.baseURI = baseURI;
 		RestAssured.port = port;
 	}
-	
+
 	String getAbsoluteUrl(String relativeUrl) {
 		return String.format("%s:%d%s", baseURI, port, relativeUrl);
 	}
-	
+
 	protected String login(String username, String password) {
-		
+
 		RestTemplate rest = new RestTemplate();
-		
+
 		/*
 		 * Step 1: Fetch the login page, and extract csrf token
 		 */
 		String loginUrl = getAbsoluteUrl("/login");
-		ResponseEntity<String> loginHtml = 
-				rest.getForEntity(loginUrl, String.class);
+		ResponseEntity<String> loginHtml = rest.getForEntity(loginUrl,
+				String.class);
 		String csrfToken = extractCsrf(loginHtml.getBody());
 		String beforeLoginSession = getSessionId(loginHtml);
-		
+
 		/*
 		 * Step 2: POST credentials + csrf token to login
 		 */
-		MultiValueMap<String, String> loginParams = getLoginParameters(username, password, csrfToken);
+		MultiValueMap<String, String> loginParams = getLoginParameters(
+				username, password, csrfToken);
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Cookie", String.format("JSESSIONID=%s", beforeLoginSession));
+		headers.add("Cookie",
+				String.format("JSESSIONID=%s", beforeLoginSession));
 		HttpEntity<?> entity = new HttpEntity<Object>(loginParams, headers);
-		ResponseEntity<String> postResponse = 
-				rest.exchange(loginUrl, HttpMethod.POST, entity, String.class);
-		
+		ResponseEntity<String> postResponse = rest.exchange(loginUrl,
+				HttpMethod.POST, entity, String.class);
+
 		/*
 		 * Step 3 : Extract Session ID and return
 		 */
@@ -84,38 +88,40 @@ public class BaseIntegrationTest {
 	private String getSessionId(ResponseEntity<?> response) {
 		Pattern sessionIDRegex = Pattern.compile(".*JSESSIONID=(\\w+).*");
 		List<String> cookies = response.getHeaders().get("Set-Cookie");
-		for(String cookie : cookies) {
+		for (String cookie : cookies) {
 			Matcher matcher = sessionIDRegex.matcher(cookie);
-			if(matcher.find()) {
+			if (matcher.find()) {
 				return matcher.group(1);
 			}
 		}
-		throw new IllegalStateException("Could not find JSESSIONID even though login was successful");
+		throw new IllegalStateException(
+				"Could not find JSESSIONID even though login was successful");
 	}
-	
-	protected MultiValueMap<String, String> getLoginParameters(String username, String password, String csrfToken) {
+
+	protected MultiValueMap<String, String> getLoginParameters(String username,
+			String password, String csrfToken) {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("username", username);
 		params.add("password", password);
 		params.add("_csrf", csrfToken);
 		return params;
 	}
-	
+
 	private String extractCsrf(String loginHtml) {
 		String regex = ".*input.*csrf.*value=\"([A-Za-z0-9-]+)\".*";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(loginHtml);
-		if(matcher.find()) {
+		if (matcher.find()) {
 			return matcher.group(1);
-		}
-		else {
-			String error = String.format("Could not extract CSRF token from login page HTML %s", loginHtml);
+		} else {
+			String error = String.format(
+					"Could not extract CSRF token from login page HTML %s",
+					loginHtml);
 			LOGGER.error(error);
 			throw new RuntimeException(error);
 		}
 	}
 }
-
 
 class Printer extends BaseMatcher<Object> {
 
@@ -127,7 +133,7 @@ class Printer extends BaseMatcher<Object> {
 
 	@Override
 	public void describeTo(Description description) {
-		
+
 	}
-	
+
 }

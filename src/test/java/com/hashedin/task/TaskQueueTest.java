@@ -18,7 +18,7 @@ public class TaskQueueTest extends BaseUnitTest {
 
 	@Autowired
 	private AdderTask adder;
-	
+
 	@Autowired
 	private TaskQueue queue;
 
@@ -26,12 +26,12 @@ public class TaskQueueTest extends BaseUnitTest {
 	public TaskQueue getTaskQueue() {
 		return new SimpleTaskQueue();
 	}
-	
+
 	@Test
 	public void testEnqueue() {
 		assertNotNull(adder);
 		assertNotNull(queue);
-		
+
 		queue.enqueue(AdderTask.class, Arrays.asList(10, 20, 12));
 		assertEquals(adder.getSum(), 42);
 	}
@@ -42,14 +42,14 @@ public class TaskQueueTest extends BaseUnitTest {
 class AdderTask implements Task<List<Integer>> {
 
 	private int sum = 0;
-	
+
 	@Override
 	public void execute(List<Integer> numbers) {
-		for(Integer num : numbers) {
+		for (Integer num : numbers) {
 			sum += num;
 		}
 	}
-	
+
 	int getSum() {
 		return sum;
 	}

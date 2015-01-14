@@ -18,19 +18,19 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long commentId;
-	
+
 	// One Task can have multiple comments.
 	// There should be a foreign_key (task_id) to task table.
-	@JoinColumn(name="task_id")
+	@JoinColumn(name = "task_id")
 	@ManyToOne
 	private Task commentedOn;
-	
+
 	// One User can made multiple comments
 	// There should be a foreign_key (user_id) to user table.
-	@JoinColumn(name="user_id")
+	@JoinColumn(name = "user_id")
 	@ManyToOne
 	private User commentedBy;
-	
+
 	private Date createdAt;
 
 	public Long getCommentId() {
@@ -74,23 +74,24 @@ public class Comment {
 	}
 
 	private String commentText;
-	
+
 	@PrePersist
-	public void prePersist(){
+	public void prePersist() {
 		Date now = new Date();
 		this.createdAt = now;
 	}
-	
-	public Comment(){}
-	
-	public Comment(CommentData data){
+
+	public Comment() {
+	}
+
+	public Comment(CommentData data) {
 		this.commentText = data.getCommentText();
 	}
-	
-	public Comment(User commentedBy, Task commentdOn, String commentText){
+
+	public Comment(User commentedBy, Task commentdOn, String commentText) {
 		this.commentedBy = commentedBy;
 		this.commentedOn = commentdOn;
 		this.commentText = commentText;
 	}
-	
+
 }

@@ -9,89 +9,56 @@ import com.jayway.restassured.path.json.JsonPath;
 
 import static com.jayway.restassured.RestAssured.*;
 
+public class TodoRestTest extends BaseIntegrationTest {
 
-public class TodoRestTest extends BaseIntegrationTest{
-
-	
 	@Test
-	public void testGetTaskResource(){
-		given()
-			.when()
-			.get("/api/tasks")
-			.then()
-			.statusCode(200)
-			.body("$", hasSize(0));  // ""/"$" for root element
+	public void testGetTaskResource() {
+		given().when().get("/api/tasks").then().statusCode(200)
+				.body("$", hasSize(0)); // ""/"$" for root element
 	}
-	
+
 	@Test
-	public void testCreateUser(){
+	public void testCreateUser() {
 		UserData user = new UserData("vinit", "rai", "marshal@gmail.com");
-	
-		given()
-			.get("/api/users").then()
-			.statusCode(200)
-			.body("$", hasSize(0));
-		
-		given()
-			.contentType("application/json")
-			.when()
-			.body(user)
-			.post("/api/users")
-			.then()
-			.statusCode(200);
+
+		given().get("/api/users").then().statusCode(200).body("$", hasSize(0));
+
+		given().contentType("application/json").when().body(user)
+				.post("/api/users").then().statusCode(200);
 	}
 
 	@Test
-	public void testCreateTask(){
+	public void testCreateTask() {
 		UserData user = new UserData("vinit", "rai", "marshalll@gmail.com");
-		
+
 		String response = addUser(user);
 		JsonPath path = new JsonPath(response);
 		Long userId = path.getLong("userId");
-		
+
 		TaskData task = new TaskData("Sample Task", userId);
-		
-		String taskResponse = given()
-								.contentType("application/json")
-								.body(task)
-								.expect()
-								.statusCode(200)
-								.when()
-								.post("/api/tasks")
-								.andReturn()
-								.body()
-								.asString();
-		
+
+		String taskResponse = given().contentType("application/json")
+				.body(task).expect().statusCode(200).when().post("/api/tasks")
+				.andReturn().body().asString();
+
 		path = new JsonPath(taskResponse);
-		Long taskId =  path.getLong("taskId");
-		
+		Long taskId = path.getLong("taskId");
+
 		removeTask(taskId);
 		removeUser(userId);
 	}
 
-	private void removeUser(Long userId){
-		given()
-			.delete("/api/users/" + userId)
-			.then()
-			.statusCode(200);
-	}
-	
-	private void removeTask(Long taskId){
-		given()
-			.delete("/api/tasks/" + taskId)
-			.then()
-			.statusCode(200);
+	private void removeUser(Long userId) {
+		given().delete("/api/users/" + userId).then().statusCode(200);
 	}
 
-	private String addUser(UserData data){
-		return given()
-				.contentType("application/json")
-				.body(data)
-				.expect()
-				.statusCode(200)
-				.when()
-				.post("/api/users")
-				.andReturn()
-				.body().asString();
+	private void removeTask(Long taskId) {
+		given().delete("/api/tasks/" + taskId).then().statusCode(200);
+	}
+
+	private String addUser(UserData data) {
+		return given().contentType("application/json").body(data).expect()
+				.statusCode(200).when().post("/api/users").andReturn().body()
+				.asString();
 	}
 }

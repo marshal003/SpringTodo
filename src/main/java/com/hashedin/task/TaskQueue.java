@@ -5,12 +5,13 @@ package com.hashedin.task;
  * 
  * Usage :
  *
- * @param <P> A parameterized class that serves as input parameters
- * @param <T> A specific task implementation that will perform the computation
+ * @param <P>
+ *            A parameterized class that serves as input parameters
+ * @param <T>
+ *            A specific task implementation that will perform the computation
  * 
  */
 public interface TaskQueue {
 
-	public <P, T extends Task<P>> 
-			void enqueue(Class<T> clazz, P parameter);
+	public <P, T extends Task<P>> void enqueue(Class<T> clazz, P parameter);
 }

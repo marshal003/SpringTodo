@@ -20,9 +20,10 @@ public class BaseUnitTest {
 
 	@Autowired
 	private ResourceLoader loader;
-	
+
 	public DefaultResponseCreator withJson(String jsonFile) {
-		return withSuccess(loader.getResource(jsonFile), MediaType.APPLICATION_JSON);
+		return withSuccess(loader.getResource(jsonFile),
+				MediaType.APPLICATION_JSON);
 	}
-	
+
 }
