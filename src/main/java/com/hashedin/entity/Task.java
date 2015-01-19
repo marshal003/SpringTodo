@@ -1,6 +1,5 @@
 package com.hashedin.entity;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
 import com.hashedin.service.model.TaskData;
 
 @Entity
@@ -28,11 +30,14 @@ public class Task {
 
 	private String description;
 
-	private Date createdAt;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime createdAt;
 
-	private Date updatedAt;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime updatedAt;
 
-	private Date dueDate;
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+	private DateTime dueDate;
 
 	private String notes;
 
@@ -65,11 +70,11 @@ public class Task {
 		this.comments = comments;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(DateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
@@ -111,15 +116,15 @@ public class Task {
 		this.description = description;
 	}
 
-	public Date getCreatedAt() {
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public Date getDueDate() {
+	public DateTime getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(DateTime dueDate) {
 		this.dueDate = dueDate;
 	}
 
@@ -139,13 +144,13 @@ public class Task {
 		this.task = task;
 	}
 
-	public Date getUpdatedAt() {
+	public DateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
 	@PrePersist
 	public void prePersist() {
-		Date now = new Date();
+		DateTime now = new DateTime();
 		this.createdAt = now;
 		this.updatedAt = now;
 		if (this.priority == null) {
@@ -155,13 +160,13 @@ public class Task {
 			this.status = TaskStatus.CREATED;
 		}
 		if (this.dueDate == null) {
-			this.dueDate = this.createdAt;
+			this.setDueDate(this.createdAt);
 		}
 	}
 
 	@PreUpdate
 	public void preUpdate() {
-		Date now = new Date();
+		DateTime now = new DateTime();
 		this.updatedAt = now;
 	}
 

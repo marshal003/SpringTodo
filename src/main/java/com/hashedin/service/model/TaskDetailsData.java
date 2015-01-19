@@ -1,7 +1,8 @@
 package com.hashedin.service.model;
 
-import java.util.Date;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hashedin.entity.Comment;
@@ -15,13 +16,13 @@ public class TaskDetailsData {
 	private Long taskId;
 
 	@JsonProperty
-	private Date createdAt;
+	private DateTime createdAt;
 
 	@JsonProperty
-	private Date updatedAt;
+	private DateTime updatedAt;
 
 	@JsonProperty
-	private Date dueDate;
+	private DateTime dueDate;
 
 	@JsonProperty
 	private String notes;
@@ -76,27 +77,27 @@ public class TaskDetailsData {
 		this.taskId = taskId;
 	}
 
-	public Date getCreatedAt() {
+	public DateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(DateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public DateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(DateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
-	public Date getDueDate() {
+	public DateTime getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(DateTime dueDate) {
 		this.dueDate = dueDate;
 	}
 

@@ -1,9 +1,9 @@
 package com.hashedin.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.Date;
-
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,7 +45,7 @@ public class TaskServiceTest extends BaseUnitTest {
 
 	public TaskData createTask(String task, Long userId) {
 		TaskData data = new TaskData(task, userId);
-		data.setDueDate(new Date());
+		data.setDueDate(new DateTime());
 		data.setNotes("This is a Sample Test Task");
 		return data;
 	}
